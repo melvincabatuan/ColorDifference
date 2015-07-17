@@ -17,12 +17,21 @@
 		minDist= distance;
 	}
 	
-	
+	// 15 fps average in 500 frames 
 	// Gets the City block color distance (Manhattan distance)  
-	int ColorDifference::getDistance(const cv::Vec3b& color) const {
+	int ColorDifference::computeDistance(const cv::Vec3b& color) const {
 	
 		return abs(color[0]-target[0]) + abs(color[1]-target[1]) + abs(color[2]-target[2]);
 	}
+	
+	
+	    // Huge impact on performance: down to 6 fps average after 500 frames
+		// Gets the Euclidean Distance (EuclideanDistance)  
+	int ColorDifference::computeEuclideanDistance(const cv::Vec3b& color) const {
+	
+		return static_cast<int>(cv::norm<int,3>(cv::Vec3i(color[0]-target[0], color[1]-target[1], color[2]-target[2])));
+	}
+	
 	
 	// Gets the color distance threshold
 	int ColorDifference::getColorDistanceThreshold() const {
@@ -71,7 +80,8 @@
 	for ( ; it!= itend; ++it, ++itout) {
 		// process each pixel ---------------------
 		// compute distance from target color
-		if (getDistance(*it) < minDist) {
+		//if (computeDistance(*it) < minDist) {
+		if (computeEuclideanDistance(*it) < minDist) {
 			*itout = 255;
 		} else {
 			*itout = 0;

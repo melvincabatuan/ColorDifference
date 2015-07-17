@@ -21,8 +21,11 @@ public:
 	// Threshold must be positive, otherwise distance threshold is set to 0.
 	void setColorDistanceThreshold(int distance);
 	
-	// Gets the City block color distance (Manhattan distance)  
-	int getDistance(const cv::Vec3b& color) const;
+	// Computes the City block color distance (Manhattan distance)  
+	int computeDistance(const cv::Vec3b& color) const;
+	
+	// Computes the Euclidean Color Distance
+	int computeEuclideanDistance(const cv::Vec3b& color) const;
 	
 	// Gets the color distance threshold
 	int getColorDistanceThreshold() const;
