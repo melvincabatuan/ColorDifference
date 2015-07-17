@@ -17,6 +17,7 @@ using namespace cv;
 /*       Global Variables        */
 
 ColorDifference cdiff;
+Mat bgr;
 
 /*
  * Class:     com_cabatuan_colordifference_MainActivity
@@ -42,10 +43,15 @@ JNIEXPORT void JNICALL Java_com_cabatuan_colordifference_MainActivity_filter
 
 /***********************************************************************************************/
 
+   if (bgr.empty())
+       bgr.create(bitmapInfo.height, bitmapInfo.width,CV_8UC3);
+  
+   cvtColor( srcNV21, bgr, CV_YUV420sp2RGB);
+   cvtColor( cdiff.process(bgr), mbgra, CV_BGR2BGRA);
  
     //cvtColor(srcNV21(cv::Range(0, bitmapInfo.height), cv::Range(0, bitmapInfo.width)), mbgra, CV_GRAY2BGRA);
     
-    cvtColor(cdiff.process(srcNV21(cv::Range(0, bitmapInfo.height), cv::Range(0, bitmapInfo.width))), mbgra, CV_GRAY2BGRA);
+    //cvtColor(cdiff.process(srcNV21(cv::Range(0, bitmapInfo.height), cv::Range(0, bitmapInfo.width))), mbgra, CV_GRAY2BGRA);
 
 /************************************************************************************************/ 
    

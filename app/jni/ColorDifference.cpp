@@ -57,8 +57,10 @@
 	// Re-allocate binary map if necessary same size as input image, but 1-channel	
 	cv::Mat ColorDifference::process(const cv::Mat &image) {
 
- 	if (result.empty())
-		result.create(image.rows,image.cols,CV_8U);
+ 	if (result.empty()){
+		//result.create(image.rows,image.cols,CV_8U); // for Gray input
+		result.create(image.rows,image.cols,CV_8UC3);
+	}
 	
 	// get the iterators
 	cv::Mat_<cv::Vec3b>::const_iterator it = image.begin<cv::Vec3b>();
@@ -69,7 +71,7 @@
 	for ( ; it!= itend; ++it, ++itout) {
 		// process each pixel ---------------------
 		// compute distance from target color
-		if (getDistance(*it)<minDist) {
+		if (getDistance(*it) < minDist) {
 			*itout = 255;
 		} else {
 			*itout = 0;
